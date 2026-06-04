@@ -1,6 +1,6 @@
 # EnviroTime 
 
-> A compact embedded solution built around the LPC2138 microcontroller that brings together real-time timekeeping, configurable alarms, temperature sensing, and a secure settings interface — all driven through a keypad and 16×2 LCD.
+> A compact embedded solution built around the LPC2148 microcontroller that brings together real-time timekeeping, configurable alarms, temperature sensing, and a secure settings interface — all driven through a keypad and 16×2 LCD.
 
 ---
 
