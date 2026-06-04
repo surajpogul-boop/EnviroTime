@@ -1,0 +1,74 @@
+Dependencies for Project 'miniproj', Target 'Target 1': (DO NOT MODIFY !)
+F (.\Startup.s)(0x532C14EA)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips--list .\startup.lst --xref -o .\startup.o --depend .\startup.d)
+F (.\main.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\main.o --omf_browse .\main.crf --depend .\main.d)
+I (C:\Keil\ARM\Inc\Philips\LPC21xx.h)(0x532C1500)
+I (lcd.h)(0x6A211B3B)
+I (types.h)(0x6A211B3B)
+I (lcd_defines.h)(0x6A211B3B)
+I (delays.h)(0x6A211B3B)
+I (rtc.h)(0x6A211B3B)
+I (keypad.h)(0x6A211B3B)
+I (alarm.h)(0x6A2123DB)
+I (password.h)(0x6A211B3B)
+I (adc2.h)(0x6A211B3B)
+F (.\rtc.c)(0x6A211E3C)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\rtc.o --omf_browse .\rtc.crf --depend .\rtc.d)
+I (rtc.h)(0x6A211B3B)
+I (C:\Keil\ARM\Inc\Philips\lpc21xx.h)(0x532C1500)
+I (types.h)(0x6A211B3B)
+I (lcd.h)(0x6A211B3B)
+I (lcd_defines.h)(0x6A211B3B)
+I (keypad.h)(0x6A211B3B)
+I (delays.h)(0x6A211B3B)
+I (alarm.h)(0x6A2123DB)
+I (input2.h)(0x6A211B3B)
+F (.\adc.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\adc.o --omf_browse .\adc.crf --depend .\adc.d)
+I (types.h)(0x6A211B3B)
+I (C:\Keil\ARM\Inc\Philips\LPC21xx.h)(0x532C1500)
+I (adc_defines.h)(0x6A211B3B)
+I (delays.h)(0x6A211B3B)
+I (adc.h)(0x6A211B3B)
+F (.\alarm.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\alarm.o --omf_browse .\alarm.crf --depend .\alarm.d)
+I (C:\Keil\ARM\Inc\Philips\LPC21xx.h)(0x532C1500)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7E87C)
+I (alarm.h)(0x6A2123DB)
+I (types.h)(0x6A211B3B)
+I (lcd.h)(0x6A211B3B)
+I (rtc.h)(0x6A211B3B)
+I (delays.h)(0x6A211B3B)
+I (lcd_defines.h)(0x6A211B3B)
+I (keypad.h)(0x6A211B3B)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C7E87C)
+F (.\input.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\input.o --omf_browse .\input.crf --depend .\input.d)
+I (C:\Keil\ARM\Inc\Philips\LPC21xx.h)(0x532C1500)
+I (input2.h)(0x6A211B3B)
+I (types.h)(0x6A211B3B)
+I (lcd.h)(0x6A211B3B)
+I (lcd_defines.h)(0x6A211B3B)
+I (keypad.h)(0x6A211B3B)
+I (alarm.h)(0x6A2123DB)
+I (delays.h)(0x6A211B3B)
+F (.\keypad.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\keypad.o --omf_browse .\keypad.crf --depend .\keypad.d)
+I (C:\Keil\ARM\Inc\Philips\LPC21xx.h)(0x532C1500)
+I (types.h)(0x6A211B3B)
+I (delays.h)(0x6A211B3B)
+I (alarm.h)(0x6A2123DB)
+F (.\password.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\password.o --omf_browse .\password.crf --depend .\password.d)
+I (input2.h)(0x6A211B3B)
+I (types.h)(0x6A211B3B)
+I (C:\Keil\ARM\Inc\Philips\LPC21xx.h)(0x532C1500)
+I (password.h)(0x6A211B3B)
+I (lcd.h)(0x6A211B3B)
+I (lcd_defines.h)(0x6A211B3B)
+I (keypad.h)(0x6A211B3B)
+I (delays.h)(0x6A211B3B)
+I (alarm.h)(0x6A2123DB)
+F (.\lcd.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\lcd.o --omf_browse .\lcd.crf --depend .\lcd.d)
+I (C:\Keil\ARM\Inc\Philips\LPC21xx.h)(0x532C1500)
+I (lcd.h)(0x6A211B3B)
+I (types.h)(0x6A211B3B)
+I (lcd_defines.h)(0x6A211B3B)
+I (defines.h)(0x6A211B3B)
+I (delays.h)(0x6A211B3B)
+F (.\delay.c)(0x6A211B3B)(-c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-o .\delay.o --omf_browse .\delay.crf --depend .\delay.d)
+I (delays.h)(0x6A211B3B)
+I (types.h)(0x6A211B3B)

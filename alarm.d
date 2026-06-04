@@ -1,0 +1,15 @@
+.\alarm.o: alarm.c
+.\alarm.o: C:\Keil\ARM\Inc\Philips\LPC21xx.h
+.\alarm.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\alarm.o: alarm.h
+.\alarm.o: types.h
+.\alarm.o: lcd.h
+.\alarm.o: types.h
+.\alarm.o: rtc.h
+.\alarm.o: types.h
+.\alarm.o: delays.h
+.\alarm.o: types.h
+.\alarm.o: lcd_defines.h
+.\alarm.o: keypad.h
+.\alarm.o: types.h
+.\alarm.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h

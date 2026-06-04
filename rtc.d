@@ -1,0 +1,15 @@
+.\rtc.o: rtc.c
+.\rtc.o: rtc.h
+.\rtc.o: C:\Keil\ARM\Inc\Philips\lpc21xx.h
+.\rtc.o: types.h
+.\rtc.o: lcd.h
+.\rtc.o: types.h
+.\rtc.o: lcd_defines.h
+.\rtc.o: keypad.h
+.\rtc.o: types.h
+.\rtc.o: delays.h
+.\rtc.o: types.h
+.\rtc.o: alarm.h
+.\rtc.o: types.h
+.\rtc.o: input2.h
+.\rtc.o: types.h

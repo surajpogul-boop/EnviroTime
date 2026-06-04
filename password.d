@@ -1,0 +1,15 @@
+.\password.o: password.c
+.\password.o: input2.h
+.\password.o: types.h
+.\password.o: C:\Keil\ARM\Inc\Philips\LPC21xx.h
+.\password.o: password.h
+.\password.o: types.h
+.\password.o: lcd.h
+.\password.o: types.h
+.\password.o: lcd_defines.h
+.\password.o: keypad.h
+.\password.o: types.h
+.\password.o: delays.h
+.\password.o: types.h
+.\password.o: alarm.h
+.\password.o: types.h

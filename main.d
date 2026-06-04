@@ -1,0 +1,17 @@
+.\main.o: main.c
+.\main.o: C:\Keil\ARM\Inc\Philips\LPC21xx.h
+.\main.o: lcd.h
+.\main.o: types.h
+.\main.o: lcd_defines.h
+.\main.o: delays.h
+.\main.o: types.h
+.\main.o: rtc.h
+.\main.o: types.h
+.\main.o: keypad.h
+.\main.o: types.h
+.\main.o: alarm.h
+.\main.o: types.h
+.\main.o: password.h
+.\main.o: types.h
+.\main.o: adc2.h
+.\main.o: types.h

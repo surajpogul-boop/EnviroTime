@@ -1,0 +1,14 @@
+.\input.o: input.c
+.\input.o: C:\Keil\ARM\Inc\Philips\LPC21xx.h
+.\input.o: input2.h
+.\input.o: types.h
+.\input.o: lcd.h
+.\input.o: types.h
+.\input.o: lcd_defines.h
+.\input.o: keypad.h
+.\input.o: types.h
+.\input.o: alarm.h
+.\input.o: types.h
+.\input.o: delays.h
+.\input.o: types.h
+.\input.o: types.h
