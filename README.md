@@ -1,38 +1,144 @@
-# EnviroTime 
+# EnviroTime
 
-> A compact embedded solution built around the LPC2148 microcontroller that brings together real-time timekeeping, configurable alarms, temperature sensing, and a secure settings interface — all driven through a keypad and 16×2 LCD.
+![LPC2148](https://img.shields.io/badge/MCU-LPC2138-blue) ![Proteus](https://img.shields.io/badge/Simulation-Proteus%208-green) ![Build](https://img.shields.io/badge/Build-0%20Errors%200%20Warnings-brightgreen) ![Keil](https://img.shields.io/badge/IDE-Keil%20µVision4-orange)
 
----
-
-## What This Project Does
-
-EnviroTime continuously tracks the current time, date, and ambient temperature, displaying everything on an LCD screen. Users can set up to two alarms, protect system settings with a password, and navigate all options through a physical keypad — no serial monitor or PC required during operation.
+An LPC2148-based embedded system that tracks real-time clock data, reads ambient temperature via an LM35 sensor, and lets you configure two independent alarms — all through a 4×4 keypad and 16×2 LCD, with every settings screen guarded by a 4-digit PIN.
 
 ---
 
-## Key Capabilities
+## LCD Screens — What You See at Every Stage
 
-| Capability | Description |
-|---|---|
-| ⏱ Real-Time Clock | Tracks hours, minutes, seconds, date, and day of week |
-| 🔔 Dual Alarms | Two independently configurable alarm slots |
-| 😴 Auto-Snooze | Unacknowledged alarm snoozes for 1 minute automatically |
-| 🔒 Password Lock | Settings access is gated by a 4-digit PIN |
-| 🌡 Temperature Display | LM35 sensor reads ambient temperature via ADC |
-| 🖥 LCD Interface | All output rendered on a 16×2 character display |
-| ⌨️ Keypad Input | Full navigation using a 4×4 matrix keypad |
-| 🔊 Buzzer Alerts | Audible feedback for alarms, errors, and lockouts |
+### Boot Splash
+Shown once on power-up while all modules initialize:
+```
+┌────────────────┐
+│ EnviroTime     │
+│ Initializing...│
+└────────────────┘
+```
+
+### Home Screen (default)
+Live RTC clock + LM35 temperature, updates every second:
+```
+┌────────────────┐
+│ 01:49:38 26.1°C│
+│ 04/06/2026 THU │
+└────────────────┘
+```
+
+### Press P0.7 (Menu Switch)
+Main menu appears. Auto-exits back to home after **10 seconds** of no keypress:
+```
+┌────────────────┐
+│ 1:RTC 2:ALARM  │
+│ 3:PWD 4:EXIT   │
+└────────────────┘
+```
 
 ---
 
-## Hardware Components
+## Menu Options — Full Walkthrough
 
-- **Microcontroller** — LPC2138 (ARM7TDMI-S, 64-pin)
-- **Temperature Sensor** — LM35 (analog output, connected to ADC)
-- **Display** — 16×2 LCD (8-bit parallel interface)
-- **Input** — 4×4 Matrix Keypad
-- **Output** — Piezo Buzzer
-- **Controls** — 2× Push Buttons (Menu, Alarm Stop)
+### Key `1` → RTC Edit
+
+Password is requested first. On success, the current time and date load into an editable screen:
+
+```
+┌────────────────┐     ┌────────────────┐
+│ ENTER PASS     │ --> │ 01:49:38       │
+│ ****_          │     │ 04/06/2026 D:4 │
+└────────────────┘     └────────────────┘
+```
+
+- Navigate digits using `+` (forward) and `-` (backward)
+- Type digits `0–9` to overwrite
+- `C` clears all fields to zero
+- `=` validates and saves — invalid ranges show `INVALID DATA` with a buzzer beep
+- On success:
+```
+┌────────────────┐
+│ RTC UPDATED    │
+│                │
+└────────────────┘
+```
+
+---
+
+### Key `2` → Alarm Configuration
+
+Password required first. Alarm menu shows current saved times for both alarms:
+
+```
+┌────────────────┐
+│ A106:30 A207:00│
+│ 1:A1 2:A2 3:BCK│
+└────────────────┘
+```
+
+Select `1` or `2`, then enter alarm time in HH:MM format:
+
+```
+┌────────────────┐
+│ SET ALARM1     │
+│ 06:30_         │
+└────────────────┘
+```
+
+- `=` confirms → `ALARM SAVED`
+- Invalid time (e.g. 25:70) → `INVALID TIME`, re-enter
+
+**When alarm fires** — buzzer activates on `P0.25`, display switches to:
+```
+┌────────────────┐
+│ **** ALARM **** │
+│ ALARM 06:30    │
+└────────────────┘
+```
+
+Press **alarm stop switch on `P0.29`** to silence and return to home.
+
+**Auto-Snooze** — if not dismissed within 10 seconds:
+```
+┌────────────────┐
+│ AUTO SNOOZE    │
+│                │
+└────────────────┘
+```
+Alarm reschedules for 1 minute later automatically.
+
+---
+
+### Key `3` → Change Password
+
+Verify current PIN first (default: `1111`). Then enter and confirm new PIN:
+
+```
+┌────────────────┐     ┌────────────────┐
+│ NEW PASS:      │ --> │ CONFIRM:       │
+│ ****_          │     │ ****_          │
+└────────────────┘     └────────────────┘
+```
+
+Mismatch → `NOT MATCH` with buzzer.  
+Success → `PASS UPDATED`.
+
+---
+
+### Wrong PIN Behaviour
+
+| Attempt | LCD message |
+|---------|-------------|
+| 1st wrong | `WRONG PASS` / `LEFT: 2` |
+| 2nd wrong | `WRONG PASS` / `LEFT: 1` |
+| 3rd wrong | `SYSTEM LOCKED` / `WAIT 10 SEC` (buzzer held) |
+
+After lockout timer: `TRY AGAIN` — counter resets to 0.
+
+---
+
+### Key `4` → Exit
+
+Returns directly to the home RTC screen with no confirmation.
 
 ---
 
@@ -42,160 +148,64 @@ EnviroTime continuously tracks the current time, date, and ambient temperature, 
 
 | Signal | LPC2138 Pin |
 |--------|-------------|
-| Data D0 | P0.8 |
-| Data D1 | P0.9 |
-| Data D2 | P0.10 |
-| Data D3 | P0.11 |
-| Data D4 | P0.12 |
-| Data D5 | P0.13 |
-| Data D6 | P0.14 |
-| Data D7 | P0.15 |
+| Data D0–D7 | P0.8 – P0.15 |
 | Register Select (RS) | P0.16 |
 | Enable (EN) | P0.17 |
-| Read/Write (RW) | GND (write-only) |
+| R/W | GND (write-only) |
 
 ### 4×4 Matrix Keypad
 
 | Line | LPC2138 Pin |
 |------|-------------|
-| Row 1 | P1.16 |
-| Row 2 | P1.17 |
-| Row 3 | P1.18 |
-| Row 4 | P1.19 |
-| Column 1 | P1.20 |
-| Column 2 | P1.21 |
-| Column 3 | P1.22 |
-| Column 4 | P1.23 |
+| Row 1–4 | P1.16 – P1.19 |
+| Column 1–4 | P1.20 – P1.23 |
 
-### LM35 Temperature Sensor
+### LM35 + Control Signals
 
-| LM35 Terminal | Connects To |
-|---------------|-------------|
-| VCC | +5V supply |
-| Output (Vout) | P0.28 — ADC channel AD0.1 |
-| GND | Ground |
-
-### Control & Output Signals
-
-| Component | LPC2138 Pin | Notes |
-|-----------|-------------|-------|
-| Buzzer | P0.25 | Alarm and error tones |
-| Menu Button | P0.7 | Opens main settings menu |
-| Alarm Stop / Snooze | P0.29 | Dismisses or snoozes active alarm |
+| Component | Pin | Direction |
+|-----------|-----|-----------|
+| LM35 Vout | P0.28 — ADC AD0.1 | Analog input |
+| Buzzer | P0.25 | Output |
+| Menu switch (SW1) | P0.7 | Input |
+| Alarm stop switch | P0.29 | Input |
 
 ---
 
-## How the System Works
+## Temperature Conversion
 
-### Boot Sequence
+LM35 produces 10 mV/°C. Firmware reads the ADC and converts:
 
-On startup, the firmware initializes the LCD, RTC registers, keypad scanner, ADC peripheral, alarm logic, and password module. Once ready, the home screen is shown immediately.
-
-### Home Screen
-
-The default screen refreshes continuously with live data:
-
-```
-HH:MM:SS  XX.X°C
-DD/MM/YYYY  DAY
+```c
+current_temp = voltage * 100.0;
 ```
 
-Example:
-```
-10:48:25  29.5°C
-04/06/2026  THU
-```
+Displayed as `XX.X°C` at LCD line 1, column 9 — updated every second alongside the clock.
 
 ---
 
-### Accessing the Menu
+## Keypad Reference
 
-A short press on the **Menu button (P0.7)** brings up the main options:
-
-```
-1:RTC  2:ALARM
-3:PWD  4:EXIT
-```
-
-If no key is pressed within **10 seconds**, the display automatically returns to the home screen.
-
----
-
-### Option 1 — Edit RTC
-
-The system first prompts for password verification. On success, the user can update:
-
-- **Time** — Hours (0–23), Minutes (0–59), Seconds (0–59)
-- **Date** — Day (1–31), Month (1–12), Year (2000–2099)
-- **Day of Week** — Value 0–6
-
-Any out-of-range value is rejected immediately:
-```
-INVALID DATA
-```
-The buzzer sounds a short error tone alongside the LCD message.
+| Key | Context | Action |
+|-----|---------|--------|
+| `1` | Menu | Open RTC edit (password first) |
+| `2` | Menu | Open alarm config (password first) |
+| `3` | Menu | Change password |
+| `4` | Menu | Exit to home |
+| `+` | Edit screens | Move cursor forward |
+| `-` | Edit screens | Move cursor backward |
+| `=` | Edit screens | Confirm / save |
+| `C` | Edit screens | Clear all fields |
+| `0–9` | Edit / password | Enter digits |
 
 ---
 
-### Option 2 — Alarm Settings
-
-Two alarm slots are available. For each alarm, the user enters the trigger time (HH:MM) via keypad.
-
-When the RTC matches an active alarm time, the buzzer turns on and the display switches to:
-```
-**** ALARM ****
-ALARM  HH:MM
-```
-
-To stop the alarm, press the **Alarm Stop button (P0.29)** — the buzzer goes silent and the system returns to the home screen.
-
----
-
-### Auto-Snooze Behaviour
-
-If the alarm runs unacknowledged for **10 seconds**, the system automatically snoozes and reschedules the trigger for **1 minute later**. The LCD briefly shows:
+## Build Output (Keil µVision)
 
 ```
-AUTO SNOOZE
+Program Size: Code=13388  RO-data=52  RW-data=152  ZI-data=1256
+FromELF: creating hex file...
+".\miniproj.axf" - 0 Error(s), 0 Warning(s).
 ```
-
----
-
-### Option 3 — Change Password
-
-The current password must be entered first. On success, the user sets a new 4-digit PIN.
-
-- **Default password:** `1111`
-- **Maximum wrong attempts:** 3
-
-After 3 failed tries, the system enters a lockout state:
-```
-SYSTEM LOCKED
-WAIT 60 SEC
-```
-The buzzer stays active for the duration of the lockout.
-
----
-
-### Temperature Monitoring
-
-The LM35 produces an output voltage proportional to temperature (10 mV/°C). This is sampled by the LPC2138's internal 10-bit ADC on channel **AD0.1 (P0.28)** and converted using:
-
-```
-Temperature (°C) = (ADC Voltage) × 100
-```
-
-The result is displayed on the home screen alongside the clock, updated every cycle.
-
----
-
-## Development Tools
-
-| Tool | Purpose |
-|------|---------|
-| Keil µVision | Firmware development and compilation |
-| Proteus 8 Professional | Circuit simulation and testing |
-| Flash Magic | Binary flashing to LPC2138 |
 
 ---
 
@@ -203,31 +213,32 @@ The result is displayed on the home screen alongside the clock, updated every cy
 
 ```
 EnviroTime/
-├── src/
-│   ├── main.c          # Entry point, init, main loop
-│   ├── rtc.c           # RTC read/write and edit logic
-│   ├── alarm.c         # Alarm compare, trigger, snooze
-│   ├── keypad.c        # 4×4 keypad scan and debounce
-│   ├── password.c      # PIN verification and change flow
-│   ├── input.c         # Generic numeric input handler
-│   └── adc.c           # ADC init and voltage-to-temp conversion
-├── imgs/               # Schematic, simulation screenshots
-└── README.md
+├── main.c         ← mode state machine, RTC display loop, switch edge detection
+├── rtc.c          ← RTC init, get/set time/date/day, RTC_Edit()
+├── alarm.c        ← Alarm_Menu(), Alarm_Task(), auto-snooze logic
+├── keypad.c       ← 4×4 matrix scan, debounce, GetKey()
+├── password.c     ← Password_Verify(), Password_Change(), lockout
+├── input.c        ← generic numeric digit input handler
+├── adc.c          ← ADC init, Read_ADC(), voltage-to-temperature
+├── lcd.c          ← LCD driver: StrLCD, CharLCD, F32LCD, CmdLCD
+├── delay.c        ← delay_ms()
+├── types.h        ← u8, s32, f32 typedefs
+├── defines.h      ← BUZZER, SW_ALARM, pin macros
+└── Startup.s      ← ARM7TDMI-S startup assembly
 ```
 
 ---
 
-## Possible Extensions
+## Tools
 
-- Store the password in **EEPROM** so it survives power cycles
-- Add a **temperature threshold alarm** that triggers when the sensor exceeds a set value
-- Support more than two alarm slots with individual enable/disable flags
-- Log time and temperature data over **UART to a PC**
-- Connect to a Wi-Fi module for **remote alarm configuration or IoT logging**
+| Tool | Purpose |
+|------|---------|
+| Keil µVision 4 | Firmware development, compilation, .hex generation |
+| Proteus 8 Professional | Full schematic and LCD simulation |
+| Flash Magic | ISP flashing of .hex to LPC2138 |
 
 ---
 
 ## Author
 
 **SURAJ POGUL**  
-
